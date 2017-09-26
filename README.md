@@ -1,6 +1,6 @@
-# LIRI Bot
+# LIRI
 
-Liri Bot is an application that you input a set of commands and it returns back a response similar to Siri, but with Text!
+Liri is an application that you input a set of commands and it returns back a response similar to Siri, but with Text!
 
 Below is the following commands that can be inputed along with a Gif for Example!
 
