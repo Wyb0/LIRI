@@ -8,6 +8,8 @@ var twitter = require("twitter")
 var SpotifyWebApi  = require("spotify-web-api-node")
 var fs = require("fs")
 
+
+
 //Twitter, Spotify, Request
 var myTwitter = new twitter(twitterKeys);
 
@@ -33,25 +35,26 @@ var spotifyApi = new SpotifyWebApi(spotifyKeys)
 
 var song = process.argv[3];
 
-function getSpotify (song) {
+function getSpotify (input) {
     // Retrieve an access token.
     spotifyApi.clientCredentialsGrant()
         .then(function(data) {
-            console.log('The access token expires in ' + data.body['expires_in']);
-            console.log('The access token is ' + data.body['access_token']);
-
+            spotifyApi.setAccessToken(data.body['access_token']);
+            spotifyApi.searchTracks(input)
+                .then(function(data) {
+                    console.log("Artist Name: " + data.body.tracks.items[0].artists[0].name, 
+                        "\nSong Name: " + data.body.tracks.items[0].name,
+                        "\nPreview Link: ", data.body.tracks.items[0].preview_url,
+                        "\nAlbum: " + data.body.tracks.items[0].album.name
+                )    
+        })
     // Save the access token so that it's used in future calls
     spotifyApi.setAccessToken(data.body['access_token']);
         }, function(err) {
             console.log('Something went wrong when retrieving an access token', err);
 });
-
 }
 
-
-//movie-this
-
-//do-what-it-says
 
 //need functions to call for each case
 
@@ -64,7 +67,7 @@ function cases (argument) {
             getTweets(); 
             break;
         case "-s":
-            getSpotify()
+            getSpotify(song)
             console.log("Spotify")
             break;
         default:
