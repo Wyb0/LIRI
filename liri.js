@@ -3,10 +3,29 @@ var request = require("request")
 var twitterKeys = require("./keys.js")
 console.log(twitterKeys)
 var spotifyKeys = require("./spotifykeys.js")
+console.log(spotifyKeys)
 var twitter = require("twitter")
-var spotify = require("spotify-web-api-node")
+var SpotifyWebApi  = require("spotify-web-api-node")
+var fs = require("fs")
 
 //Twitter, Spotify, Request
+var myTwitter = new twitter(twitterKeys);
+
+function getTweets () {
+myTwitter.get('statuses/user_timeline', function(error, tweets, response) {
+    if (!error) {
+      console.log("Twitter Data\n", tweets[0].text);
+      for (i=0; i < tweets.length; i++) {
+          tweets[i].text
+          console.log("\n", tweets[i].created_at)
+          console.log(tweets[i].text)
+      }
+    }
+    else {
+        console.log("not working")
+    }
+});
+};
 
 //get user input 
 
@@ -23,3 +42,19 @@ var spotify = require("spotify-web-api-node")
 //need functions to call for each case
 
 //make case statement for each command
+
+function cases (argument) {
+    switch (argument) {
+        case "my-tweets": 
+        case "-t":
+            getTweets(); 
+            break;
+        case "-s":
+            console.log("Spotify")
+            break;
+        default:
+            console.log("No Input")
+    
+    }
+}
+cases(process.argv[2]);
