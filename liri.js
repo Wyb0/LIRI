@@ -8,7 +8,13 @@ var twitter = require("twitter")
 var SpotifyWebApi  = require("spotify-web-api-node")
 var fs = require("fs")
 
-
+//string input concat
+var userInput = "";
+if (process.argv.length > 3) {
+    for (a=3; a < process.argv.length; a++) {
+        userInput += (process.argv[a] + "+")
+    }
+}
 
 //Twitter, Spotify, Request
 var myTwitter = new twitter(twitterKeys);
@@ -33,7 +39,8 @@ myTwitter.get('statuses/user_timeline', function(error, tweets, response) {
 
 var spotifyApi = new SpotifyWebApi(spotifyKeys)
 
-var song = process.argv[3];
+var song = userInput;
+console.log(song)
 
 function getSpotify (input) {
     // Retrieve an access token.
@@ -67,6 +74,7 @@ function cases (argument) {
             getTweets(); 
             break;
         case "-s":
+        case "spotify-this-song":
             getSpotify(song)
             console.log("Spotify")
             break;
