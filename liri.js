@@ -27,13 +27,27 @@ myTwitter.get('statuses/user_timeline', function(error, tweets, response) {
 });
 };
 
-//get user input 
+//Spotify
 
-//conditional for which command 
+var spotifyApi = new SpotifyWebApi(spotifyKeys)
 
-//my-tweets
+var song = process.argv[3];
 
-//spotify-this-song
+function getSpotify (song) {
+    // Retrieve an access token.
+    spotifyApi.clientCredentialsGrant()
+        .then(function(data) {
+            console.log('The access token expires in ' + data.body['expires_in']);
+            console.log('The access token is ' + data.body['access_token']);
+
+    // Save the access token so that it's used in future calls
+    spotifyApi.setAccessToken(data.body['access_token']);
+        }, function(err) {
+            console.log('Something went wrong when retrieving an access token', err);
+});
+
+}
+
 
 //movie-this
 
@@ -50,6 +64,7 @@ function cases (argument) {
             getTweets(); 
             break;
         case "-s":
+            getSpotify()
             console.log("Spotify")
             break;
         default:
