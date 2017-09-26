@@ -1,9 +1,7 @@
 //require all of packages and files
 var request = require("request")
 var twitterKeys = require("./keys.js")
-console.log(twitterKeys)
 var spotifyKeys = require("./spotifykeys.js")
-console.log(spotifyKeys)
 var twitter = require("twitter")
 var SpotifyWebApi  = require("spotify-web-api-node")
 var fs = require("fs")
@@ -40,7 +38,6 @@ myTwitter.get('statuses/user_timeline', function(error, tweets, response) {
 var spotifyApi = new SpotifyWebApi(spotifyKeys)
 
 var song = userInput;
-console.log(song)
 
 function getSpotify (input) {
     // Retrieve an access token.
@@ -66,14 +63,12 @@ function getSpotify (input) {
 function getMovie() {
     if (!process.argv[3]){
         userInput = "Get Out"
-        console.log(userInput)
     }
     var queryUrl = "http://www.omdbapi.com/?t=" + userInput + "&y=&plot=short&apikey=40e9cece";
     request(queryUrl, function (err, data) {
         if (err) {
             throw err;
         } else {
-            console.log(JSON.parse(data.body))
                 var object = JSON.parse(data.body)
                     console.log("Title: " + object.Title)
                     console.log("Release Year: " + object.Year)
@@ -88,13 +83,20 @@ function getMovie() {
 }
 
 function doIt(){
-
+    fs.readFile('random.txt', 'utf8', function (error, data) {
+        if (error) {
+            throw error;
+        } else {
+            doThis = (data.split(","));
+            getSpotify(doThis[1])
+        }
+    })
 }
 //need functions to call for each case
 
 //make case statement for each command
 
-function cases (argument) {
+function cases (argument, userInput) {
     switch (argument) {
         case "my-tweets": 
         case "-t":
@@ -103,14 +105,15 @@ function cases (argument) {
         case "-s":
         case "spotify-this-song":
             getSpotify(song)
-            console.log("Spotify")
             break;
         case "-m":
         case "movie-this":
             getMovie()
+            break;
         case "-d":
         case "do-what-it-says":
             doIt()
+            break;
         default:
             console.log("No Input")
     
