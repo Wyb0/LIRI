@@ -63,9 +63,12 @@ function getSpotify (input) {
 }
 
 //omdb 
-var queryUrl = "http://www.omdbapi.com/?t=" + userInput + "&y=&plot=short&apikey=40e9cece";
-
 function getMovie() {
+    if (!process.argv[3]){
+        userInput = "Get Out"
+        console.log(userInput)
+    }
+    var queryUrl = "http://www.omdbapi.com/?t=" + userInput + "&y=&plot=short&apikey=40e9cece";
     request(queryUrl, function (err, data) {
         if (err) {
             throw err;
@@ -84,6 +87,9 @@ function getMovie() {
 })
 }
 
+function doIt(){
+
+}
 //need functions to call for each case
 
 //make case statement for each command
@@ -102,7 +108,9 @@ function cases (argument) {
         case "-m":
         case "movie-this":
             getMovie()
-            console.log()
+        case "-d":
+        case "do-what-it-says":
+            doIt()
         default:
             console.log("No Input")
     
