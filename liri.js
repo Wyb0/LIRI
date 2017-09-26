@@ -62,6 +62,27 @@ function getSpotify (input) {
 });
 }
 
+//omdb 
+var queryUrl = "http://www.omdbapi.com/?t=" + userInput + "&y=&plot=short&apikey=40e9cece";
+
+function getMovie() {
+    request(queryUrl, function (err, data) {
+        if (err) {
+            throw err;
+        } else {
+            console.log(JSON.parse(data.body))
+                var object = JSON.parse(data.body)
+                    console.log("Title: " + object.Title)
+                    console.log("Release Year: " + object.Year)
+                    console.log("IMDB Rating: " + object.imdbRating)
+                    console.log("Rotten Tomatoes Rating: " + object.Ratings[1].Value)
+                    console.log("Country Produced: " + object.Country)
+                    console.log("Language: " + object.Language)
+                    console.log("Plot: " + object.Plot)
+                    console.log("Actors: " + object.Actors)
+        }
+})
+}
 
 //need functions to call for each case
 
@@ -78,6 +99,10 @@ function cases (argument) {
             getSpotify(song)
             console.log("Spotify")
             break;
+        case "-m":
+        case "movie-this":
+            getMovie()
+            console.log()
         default:
             console.log("No Input")
     
