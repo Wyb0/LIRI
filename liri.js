@@ -41,6 +41,9 @@ var song = userInput;
 
 function getSpotify (input) {
     // Retrieve an access token.
+    if (!process.argv[3]){
+        song = "Ten Speed of God's Blood and Burial"
+    }
     spotifyApi.clientCredentialsGrant()
         .then(function(data) {
             spotifyApi.setAccessToken(data.body['access_token']);
